@@ -72,9 +72,9 @@
 + (NSValueTransformer *)windSpeedJSONTransformer {
     // 转换风数到每小时/英里，并且是obj
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSNumber *num) {
-        return @(num.floatValue*MPS_TO_MPH);
+        return @(num.floatValue * MPS_TO_MPH);
     } reverseBlock:^(NSNumber *speed) {
-        return @(speed.floatValue/MPS_TO_MPH);
+        return @(speed.floatValue / MPS_TO_MPH);
     }];
 }
 

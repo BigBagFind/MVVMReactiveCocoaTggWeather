@@ -6,11 +6,12 @@
 //  Copyright © 2016年 铁哥哥. All rights reserved.
 //
 
-#import "WXController.h"
 #import <LBBlurredImage/UIImageView+LBBlurredImage.h>
-#import "WXManager.h"
-#import "RACEXTScope.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <TSMessages/TSMessage.h>
+#import "WXController.h"
+#import "RACEXTScope.h"
+
 
 @interface WXController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
@@ -27,19 +28,22 @@
 /** 天气列表 */
 @property (nonatomic, strong) UITableView *tableView;
 
-
+/** 温度 */
 @property (nonatomic, strong) UILabel *temperatureLabel;
+
+/** 高低温度 */
 @property (nonatomic, strong) UILabel *hiloLabel;
+
+/** 城市 */
 @property (nonatomic, strong) UILabel *cityLabel;
+
+/** 当前天气描述 */
 @property (nonatomic, strong) UILabel *conditionsLabel;
+
+/** 当前天气描述图 */
 @property (nonatomic, strong) UIImageView *iconView;
 
 
-/** 小时格式 */
-@property (nonatomic, strong) NSDateFormatter *hourlyFormatter;
-
-/** 每天格式 */
-@property (nonatomic, strong) NSDateFormatter *dailyFormatter;
 
 /** 拿到全屏高度 */
 @property (nonatomic, assign) CGFloat screenHeight;
@@ -58,26 +62,7 @@
     if (self) {
         // 拿到初始化的ViewModel
         self.viewModel = viewModel;
-        // 如果是小写的"hh"，那么时间将会跟着系统设置变成12小时或者24小时制
-        // 大写的"HH"，则强制为24小时制
-        _hourlyFormatter = [[NSDateFormatter alloc] init];
-        _hourlyFormatter.dateFormat = @"h";
-        // EEEE为星期几，EEE为周几
-        _dailyFormatter = [[NSDateFormatter alloc] init];
-        _dailyFormatter.dateFormat = @"EEE";
-    }
-    return self;
-}
 
-- (instancetype)init {
-    if (self = [super init]) {
-        // 如果是小写的"hh"，那么时间将会跟着系统设置变成12小时或者24小时制
-        // 大写的"HH"，则强制为24小时制
-        _hourlyFormatter = [[NSDateFormatter alloc] init];
-        _hourlyFormatter.dateFormat = @"h";
-        // EEEE为星期几，EEE为周几
-        _dailyFormatter = [[NSDateFormatter alloc] init];
-        _dailyFormatter.dateFormat = @"EEE";
     }
     return self;
 }
@@ -103,7 +88,7 @@
 }
 
 - (void)prepareBasicViews {
-    UIImage *background = [UIImage imageNamed:@"bg"];
+    UIImage *background = [UIImage imageNamed:@"hangzhou.jpeg"];
     
     // 2
     self.backgroundImageView = [[UIImageView alloc] initWithImage:background];
@@ -161,7 +146,6 @@
     conditionsFrame.size.width = self.view.bounds.size.width - (((2 * inset) + iconHeight) + 10);
     conditionsFrame.origin.x = iconFrame.origin.x + (iconHeight + 10);
     
-    
     // 1
     UIView *header = [[UIView alloc] initWithFrame:headerFrame];
     header.backgroundColor = [UIColor clearColor];
@@ -210,22 +194,23 @@
 
 #pragma mark - 捆绑ViewModel
 - (void)bindViewModel {
+    /*************** PageOne--->TableHeader ******************/
     // 当前温度
     RAC(self.temperatureLabel, text) = [RACObserve(self.viewModel, temperature) deliverOnMainThread];
     // 当前天气状况，如cloud
-    RAC(self.conditionsLabel,text) = [RACObserve(self.viewModel, condition) deliverOnMainThread];
+    RAC(self.conditionsLabel, text) = [RACObserve(self.viewModel, condition) deliverOnMainThread];
     // 当前城市名,过滤没定位到的位置，保持loading
-    RAC(self.cityLabel,text) = [[RACObserve(self.viewModel, city)
+    RAC(self.cityLabel, text) = [[RACObserve(self.viewModel, city)
     filter:^BOOL(NSString *text) {
         NSLog(@"text：%@",text);
         return text && text.length > 0;
-    }]deliverOnMainThread];
+    }] deliverOnMainThread];
     // 图片名称，转换到image
-    RAC(self.iconView,image) = [[RACObserve(self.viewModel, iconName) map:^id(NSString *iconName) {
+    RAC(self.iconView, image) = [[RACObserve(self.viewModel, iconName) map:^id(NSString *iconName) {
         return [UIImage imageNamed:iconName];
-    }]deliverOnMainThread];
+    }] deliverOnMainThread];
     // 最高和最低气温
-    RAC(self.hiloLabel,text) = [RACObserve(self.viewModel, hilo) deliverOnMainThread];
+    RAC(self.hiloLabel, text) = [RACObserve(self.viewModel, hilo) deliverOnMainThread];
     
     // 观察合并array且刷新table
     [[[RACSignal combineLatest:
@@ -235,6 +220,32 @@
      subscribeNext:^(NSString *text) {
          [self.tableView reloadData];
      }];
+    
+    /*************** PageTwo--->Section ******************/
+    // 网络错误更新UI
+    [[self.viewModel.fetchDataSignal deliverOnMainThread] subscribeError:^(NSError *error) {
+         [TSMessage showNotificationWithTitle:@"Error"
+                                     subtitle:@"There was a problem fetching the latest weather."
+                                         type:TSMessageNotificationTypeError];
+    }];
+    
+    // 观察array属性
+    [[[RACObserve(self.viewModel, hourlyForecasts)
+      ignore:nil]
+      deliverOn:RACScheduler.mainThreadScheduler]
+      subscribeNext:^(NSArray *newForecast) {
+        NSLog(@"hourlyForecasts:%@",self.viewModel.hourlyForecasts);
+         [self.tableView reloadData];
+      }];
+    
+    // 观察array属性来更新tableView
+    [[[RACObserve(self.viewModel, dailyForecasts)
+      ignore:nil]
+      deliverOn:RACScheduler.mainThreadScheduler]
+      subscribeNext:^(NSArray *newForecast) {
+          NSLog(@"dailyForecasts:%@",self.viewModel.dailyForecasts);
+         [self.tableView reloadData];
+      }];
 }
 
 
@@ -249,17 +260,17 @@
     // TODO: Return count of forecast
     // 1第一部分是对的逐时预报。使用最近6小时的预预报，并添加了一个作为页眉的单元格。
     if (section == 0) {
-        return MIN([[WXManager sharedManager].hourlyForecast count], 8) + 1;
+        return MIN([self.viewModel.hourlyForecasts count], 8) + 1;
     }
     // 2接下来的部分是每日预报。使用最近6天的每日预报，并添加了一个作为页眉的单元格。
-    return MIN([[WXManager sharedManager].dailyForecast count], 7) + 1;
+    return MIN([self.viewModel.dailyForecasts count], 7) + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CellIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (! cell) {
+    if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
@@ -276,7 +287,7 @@
             [self configureHeaderCell:cell title:@"Hourly Forecast"];
         } else {
             // 2获取每小时的天气和使用自定义配置方法配置cell。
-            WXCondition *weather = [WXManager sharedManager].hourlyForecast[indexPath.row - 1];
+            WXCondition *weather = self.viewModel.hourlyForecasts[indexPath.row - 1];
             [self configureHourlyCell:cell weather:weather];
         }
     } else if (indexPath.section == 1) {
@@ -285,7 +296,7 @@
             [self configureHeaderCell:cell title:@"Daily Forecast"];
         } else {
             // 3获取每天的天气，并使用另一个自定义配置方法配置cell。
-            WXCondition *weather = [WXManager sharedManager].dailyForecast[indexPath.row - 1];
+            WXCondition *weather = self.viewModel.dailyForecasts[indexPath.row - 1];
             [self configureDailyCell:cell weather:weather];
         }
     }
@@ -303,7 +314,6 @@
 }
 
 
-
 // 1配置和添加文本到作为section页眉单元格。你会重用此为每日每时的预测部分。
 - (void)configureHeaderCell:(UITableViewCell *)cell title:(NSString *)title {
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
@@ -316,7 +326,7 @@
 - (void)configureHourlyCell:(UITableViewCell *)cell weather:(WXCondition *)weather {
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
-    cell.textLabel.text = [self.hourlyFormatter stringFromDate:weather.date];
+    cell.textLabel.text = [self.viewModel hourlyStrWith:weather];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%.0f°",weather.temperature.floatValue];
     cell.imageView.image = [UIImage imageNamed:[weather imageName]];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -326,7 +336,7 @@
 - (void)configureDailyCell:(UITableViewCell *)cell weather:(WXCondition *)weather {
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
-    cell.textLabel.text = [self.dailyFormatter stringFromDate:weather.date];
+    cell.textLabel.text = [self.viewModel dailyStrWith:weather];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%.0f° / %.0f°",
                                  weather.tempHigh.floatValue,
                                  weather.tempLow.floatValue];
