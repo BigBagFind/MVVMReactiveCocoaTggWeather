@@ -27,7 +27,11 @@
 /** 最高和最低气温 */
 @property (nonatomic, copy) NSString *hilo;
 
+/** 最高气温 */
+@property (nonatomic, strong) NSNumber *high;
 
+/** 最低气温 */
+@property (nonatomic, strong) NSNumber *low;
 
 // 这些属性将存储您的数据，这些属性可以任意访问。设置公共属性为只读，因为只有管理者能更改这些值。
 @property (nonatomic, strong, readonly) WXCondition *currentCondition;

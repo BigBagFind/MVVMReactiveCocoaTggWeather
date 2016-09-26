@@ -11,9 +11,9 @@
 #import <TSMessages/TSMessage.h>
 #import "WXController.h"
 #import "RACEXTScope.h"
+#import "WXThemeManager.h"
 
-
-@interface WXController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface WXController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate,WXThemeProcotol>
 
 
 /** viewModel */
@@ -24,6 +24,9 @@
 
 /** 毛玻璃 */
 @property (nonatomic, strong) UIImageView *blurredImageView;
+
+/** 切换温度单位 */
+@property (nonatomic, strong) UISegmentedControl *segControl;
 
 /** 天气列表 */
 @property (nonatomic, strong) UITableView *tableView;
@@ -62,18 +65,23 @@
     if (self) {
         // 拿到初始化的ViewModel
         self.viewModel = viewModel;
-
     }
     return self;
 }
 
 
+
 #pragma mark - LifeCycle
+- (void)dealloc {
+    [WXNotification removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self prepareBasicViews];
     [self prepareMainViews];
     [self bindViewModel];
+    //[WXNotification addObserver:self selector:@selector(executeChangeWeatherUnit) name:WXChangeWeatherUnitNotification object:nil];
     
 }
 
@@ -189,14 +197,58 @@
     self.iconView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconView.backgroundColor = [UIColor clearColor];
     [header addSubview:self.iconView];
+    
+    // 新增segControl
+    NSArray *items = @[@"°F",@"°C"];
+    self.segControl = [[UISegmentedControl alloc] initWithItems:items];
+    self.segControl.frame = CGRectMake(self.view.frame.size.width - 88, 20, 80, 35);
+    [self.view addSubview:self.segControl];
+    self.segControl.tintColor = [UIColor whiteColor];
+    NSNumber *unit = [WXUserDefaults objectForKey:WXWeatherUnit];
+    self.segControl.selectedSegmentIndex = [unit integerValue];
+}
+
+- (void)executeChangeWeatherUnit {
+    /*
+     华氏度(℉)=32+摄氏度(℃)×1.8，
+     
+     摄氏度(℃)=（华氏度(℉)-32）÷1.8。
+     */
+//    if ([[WXThemeManager shareThemeManager].themeModel.unit isEqualToString:@"C"]) {
+//        CGFloat temperature = [self.viewModel.temperature doubleValue];
+//        self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°",(temperature - 32) / 1.8];
+//        self.temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:100];
+//    } else {
+//        self.temperatureLabel.text = self.viewModel.temperature;
+//        self.temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:120];
+//    }
 }
 
 
 #pragma mark - 捆绑ViewModel
 - (void)bindViewModel {
     /*************** PageOne--->TableHeader ******************/
-    // 当前温度
-    RAC(self.temperatureLabel, text) = [RACObserve(self.viewModel, temperature) deliverOnMainThread];
+    // 忽略初始化的－17.8
+    // 过滤没有数据的情况null
+    // 改变字体大小
+    @weakify(self);
+    [[[[RACObserve(self.viewModel, temperature) deliverOnMainThread] ignore:@"-17.8"]
+       filter:^BOOL(NSString *value) {
+         return value.length > 0;
+       }]
+       subscribeNext:^(NSString *temp) {
+           @strongify(self);
+           self.temperatureLabel.text = [NSString stringWithFormat:@"%@°",temp];
+           if ([[WXThemeManager shareThemeManager].themeModel.unit isEqualToString:@"C"]) {
+               self.temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:100];
+           } else {
+               self.temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:120];
+           }
+       }];
+    
+    // 最高和最低气温
+    RAC(self.hiloLabel, text) = [RACObserve(self.viewModel, hilo) deliverOnMainThread];
+    
     // 当前天气状况，如cloud
     RAC(self.conditionsLabel, text) = [RACObserve(self.viewModel, condition) deliverOnMainThread];
     // 当前城市名,过滤没定位到的位置，保持loading
@@ -209,9 +261,7 @@
     RAC(self.iconView, image) = [[RACObserve(self.viewModel, iconName) map:^id(NSString *iconName) {
         return [UIImage imageNamed:iconName];
     }] deliverOnMainThread];
-    // 最高和最低气温
-    RAC(self.hiloLabel, text) = [RACObserve(self.viewModel, hilo) deliverOnMainThread];
-    
+   
     // 观察合并array且刷新table
     [[[RACSignal combineLatest:
       @[RACObserve(self.viewModel, hourlyForecasts),
@@ -220,6 +270,14 @@
      subscribeNext:^(NSString *text) {
          [self.tableView reloadData];
      }];
+    
+    // segControl
+    [[[self.segControl rac_signalForControlEvents:UIControlEventValueChanged]
+       map:^id(UISegmentedControl *control) {
+        return @(control.selectedSegmentIndex);
+      }] subscribeNext:^(NSNumber *selectedIndex) {
+          [[WXThemeManager shareThemeManager] postWeatherUnitChangeNotification:selectedIndex];
+      }];
     
     /*************** PageTwo--->Section ******************/
     // 网络错误更新UI
@@ -247,8 +305,6 @@
          [self.tableView reloadData];
       }];
 }
-
-
 
 
 #pragma mark - UITableViewDataSource
