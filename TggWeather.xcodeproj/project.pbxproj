@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		085A99041D93ADB700AF95B6 /* hangzhou.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 085A99031D93ADB700AF95B6 /* hangzhou.jpeg */; };
 		085A99141D93AF9A00AF95B6 /* hz0.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 085A99061D93AF9A00AF95B6 /* hz0.jpeg */; };
 		085A99151D93AF9A00AF95B6 /* hz1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 085A99071D93AF9A00AF95B6 /* hz1.jpeg */; };
 		085A99161D93AF9A00AF95B6 /* hz10.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 085A99081D93AF9A00AF95B6 /* hz10.jpeg */; };
@@ -87,7 +86,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		085A99031D93ADB700AF95B6 /* hangzhou.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hangzhou.jpeg; sourceTree = "<group>"; };
 		085A99061D93AF9A00AF95B6 /* hz0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hz0.jpeg; sourceTree = "<group>"; };
 		085A99071D93AF9A00AF95B6 /* hz1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hz1.jpeg; sourceTree = "<group>"; };
 		085A99081D93AF9A00AF95B6 /* hz10.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hz10.jpeg; sourceTree = "<group>"; };
@@ -106,7 +104,7 @@
 		086A3CAB1D76B42600624CD6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		086A3CAD1D76B42600624CD6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		086A3CAE1D76B42600624CD6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		086A3CB61D76B42600624CD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		086A3CB61D76B42600624CD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		086A3CB91D76B42600624CD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		086A3CBB1D76B42600624CD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		086A3CC01D76B42600624CD6 /* TggWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TggWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,7 +156,7 @@
 		08F59BB71D7C672A006DFF94 /* WXViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXViewModel.m; sourceTree = "<group>"; };
 		08FB40AB1D9A532B00BC6DDE /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
 		08FB40AC1D9A532B00BC6DDE /* LaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
-		08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchAnimation.storyboard; sourceTree = "<group>"; };
+		08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchAnimation.storyboard; path = ../LaunchAnimation.storyboard; sourceTree = "<group>"; };
 		08FC54721D83D84E009D4762 /* WXViewModelServicesImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXViewModelServicesImpl.h; sourceTree = "<group>"; };
 		08FC54731D83D84E009D4762 /* WXViewModelServicesImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXViewModelServicesImpl.m; sourceTree = "<group>"; };
 		08FC54751D83D93C009D4762 /* WXViewModelServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXViewModelServices.h; sourceTree = "<group>"; };
@@ -245,16 +243,11 @@
 			isa = PBXGroup;
 			children = (
 				08F59BB11D7C65D0006DFF94 /* Resource */,
-				086A3CB81D76B42600624CD6 /* LaunchScreen.storyboard */,
-				08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */,
-				086A3CB61D76B42600624CD6 /* Assets.xcassets */,
 				08F59BAA1D7C64EA006DFF94 /* Util */,
 				08D9D5AC1D94BE2200EA83B7 /* Config */,
 				08F59BA91D7C64EA006DFF94 /* Model */,
 				08F59BAB1D7C64EA006DFF94 /* View */,
 				08F59BAC1D7C64EA006DFF94 /* ViewModel */,
-				086A3CAD1D76B42600624CD6 /* AppDelegate.h */,
-				086A3CAE1D76B42600624CD6 /* AppDelegate.m */,
 				086A3CAA1D76B42600624CD6 /* Supporting Files */,
 			);
 			path = TggWeather;
@@ -263,6 +256,8 @@
 		086A3CAA1D76B42600624CD6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				086A3CAD1D76B42600624CD6 /* AppDelegate.h */,
+				086A3CAE1D76B42600624CD6 /* AppDelegate.m */,
 				086A3CAB1D76B42600624CD6 /* main.m */,
 				086A3CBB1D76B42600624CD6 /* Info.plist */,
 			);
@@ -292,7 +287,6 @@
 			children = (
 				08D9D5AA1D94BDF600EA83B7 /* icon.png */,
 				085A99051D93AF9A00AF95B6 /* hzBg */,
-				085A99031D93ADB700AF95B6 /* hangzhou.jpeg */,
 				086A3CE11D76B85D00624CD6 /* bg.png */,
 				086A3CE21D76B85D00624CD6 /* bg@2x.png */,
 				086A3CE31D76B85D00624CD6 /* Weather Icons */,
@@ -394,6 +388,9 @@
 		08F59BB11D7C65D0006DFF94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				086A3CB81D76B42600624CD6 /* LaunchScreen.storyboard */,
+				08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */,
+				086A3CB61D76B42600624CD6 /* Assets.xcassets */,
 				086A3CE01D76B85D00624CD6 /* Images */,
 			);
 			path = Resource;
@@ -530,7 +527,6 @@
 				08FB40AF1D9A543800BC6DDE /* LaunchAnimation.storyboard in Resources */,
 				085A991A1D93AF9A00AF95B6 /* hz2.jpeg in Resources */,
 				085A99201D93AF9A00AF95B6 /* hz8.jpeg in Resources */,
-				085A99041D93ADB700AF95B6 /* hangzhou.jpeg in Resources */,
 				086A3CBA1D76B42600624CD6 /* LaunchScreen.storyboard in Resources */,
 				085A991F1D93AF9A00AF95B6 /* hz7.jpeg in Resources */,
 				086A3D051D76B85D00624CD6 /* weather-few@2x.png in Resources */,
@@ -693,6 +689,7 @@
 				086A3CB91D76B42600624CD6 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

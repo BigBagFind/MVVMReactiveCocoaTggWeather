@@ -72,6 +72,7 @@
 
 
 #pragma mark - LifeCycle
+
 - (void)dealloc {
     [WXNotification removeObserver:self];
 }
@@ -96,10 +97,10 @@
          @strongify(self);
          [UIView transitionWithView:self.backgroundImageView duration:1.0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
              self.backgroundImageView.image = image;
+             self.blurredImageView.image = image;
          } completion:nil];
      }];
 
-    
 }
 
 
@@ -227,6 +228,7 @@
 }
 
 #pragma mark - 捆绑ViewModel
+
 - (void)bindViewModel {
     /*************** PageOne--->TableHeader ******************/
     // 忽略初始化的－17.8
@@ -309,6 +311,7 @@
 
 
 #pragma mark - UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
@@ -416,6 +419,7 @@
 
 
 #pragma mark -  StatusBarColor
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
