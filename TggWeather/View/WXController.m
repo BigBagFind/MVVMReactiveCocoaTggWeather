@@ -416,8 +416,6 @@
     CGFloat percent = MIN(position / height, 1.0);
     // 3
     self.blurredImageView.alpha = percent;
-    
-    NSLog(@"%@",NSStringFromCGPoint(scrollView.contentOffset));
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
