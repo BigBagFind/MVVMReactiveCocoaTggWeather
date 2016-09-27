@@ -61,6 +61,8 @@
 		08D9D5A91D94BDD100EA83B7 /* WXDailyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D9D5A71D94BDD100EA83B7 /* WXDailyForecast.m */; };
 		08D9D5AB1D94BDF600EA83B7 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D9D5AA1D94BDF600EA83B7 /* icon.png */; };
 		08F59BB81D7C672A006DFF94 /* WXViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F59BB71D7C672A006DFF94 /* WXViewModel.m */; };
+		08FB40AD1D9A532B00BC6DDE /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB40AC1D9A532B00BC6DDE /* LaunchViewController.m */; };
+		08FB40AF1D9A543800BC6DDE /* LaunchAnimation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */; };
 		08FC54741D83D84E009D4762 /* WXViewModelServicesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC54731D83D84E009D4762 /* WXViewModelServicesImpl.m */; };
 		08FC54801D83DCAA009D4762 /* WXWeahtherImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC547F1D83DCAA009D4762 /* WXWeahtherImpl.m */; };
 		08FC54901D83FBBD009D4762 /* WXLocationImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC548F1D83FBBD009D4762 /* WXLocationImpl.m */; };
@@ -154,6 +156,9 @@
 		08D9D5B21D94C34700EA83B7 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		08F59BB61D7C672A006DFF94 /* WXViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXViewModel.h; sourceTree = "<group>"; };
 		08F59BB71D7C672A006DFF94 /* WXViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXViewModel.m; sourceTree = "<group>"; };
+		08FB40AB1D9A532B00BC6DDE /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
+		08FB40AC1D9A532B00BC6DDE /* LaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
+		08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchAnimation.storyboard; sourceTree = "<group>"; };
 		08FC54721D83D84E009D4762 /* WXViewModelServicesImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXViewModelServicesImpl.h; sourceTree = "<group>"; };
 		08FC54731D83D84E009D4762 /* WXViewModelServicesImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXViewModelServicesImpl.m; sourceTree = "<group>"; };
 		08FC54751D83D93C009D4762 /* WXViewModelServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXViewModelServices.h; sourceTree = "<group>"; };
@@ -240,6 +245,9 @@
 			isa = PBXGroup;
 			children = (
 				08F59BB11D7C65D0006DFF94 /* Resource */,
+				086A3CB81D76B42600624CD6 /* LaunchScreen.storyboard */,
+				08FB40AE1D9A543800BC6DDE /* LaunchAnimation.storyboard */,
+				086A3CB61D76B42600624CD6 /* Assets.xcassets */,
 				08F59BAA1D7C64EA006DFF94 /* Util */,
 				08D9D5AC1D94BE2200EA83B7 /* Config */,
 				08F59BA91D7C64EA006DFF94 /* Model */,
@@ -247,8 +255,6 @@
 				08F59BAC1D7C64EA006DFF94 /* ViewModel */,
 				086A3CAD1D76B42600624CD6 /* AppDelegate.h */,
 				086A3CAE1D76B42600624CD6 /* AppDelegate.m */,
-				086A3CB61D76B42600624CD6 /* Assets.xcassets */,
-				086A3CB81D76B42600624CD6 /* LaunchScreen.storyboard */,
 				086A3CAA1D76B42600624CD6 /* Supporting Files */,
 			);
 			path = TggWeather;
@@ -367,6 +373,8 @@
 			children = (
 				08D9D5A11D94BDC300EA83B7 /* WXController.h */,
 				08D9D5A21D94BDC300EA83B7 /* WXController.m */,
+				08FB40AB1D9A532B00BC6DDE /* LaunchViewController.h */,
+				08FB40AC1D9A532B00BC6DDE /* LaunchViewController.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -519,6 +527,7 @@
 				085A991D1D93AF9A00AF95B6 /* hz5.jpeg in Resources */,
 				086A3D041D76B85D00624CD6 /* weather-few.png in Resources */,
 				086A3D0C1D76B85D00624CD6 /* weather-rain.png in Resources */,
+				08FB40AF1D9A543800BC6DDE /* LaunchAnimation.storyboard in Resources */,
 				085A991A1D93AF9A00AF95B6 /* hz2.jpeg in Resources */,
 				085A99201D93AF9A00AF95B6 /* hz8.jpeg in Resources */,
 				085A99041D93ADB700AF95B6 /* hangzhou.jpeg in Resources */,
@@ -642,6 +651,7 @@
 				08D9D59D1D93DE7000EA83B7 /* WXThemeManager.m in Sources */,
 				08D9D5A01D94BA2900EA83B7 /* WXThemeModel.m in Sources */,
 				08FC54901D83FBBD009D4762 /* WXLocationImpl.m in Sources */,
+				08FB40AD1D9A532B00BC6DDE /* LaunchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,6 +794,7 @@
 				DEVELOPMENT_TEAM = F7JN2J2BY4;
 				GCC_PREFIX_HEADER = ./TggWeather/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = TggWeather/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ON_DEMAND_RESOURCES_PREFETCH_ORDER = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tiequantech.TggWeather;
@@ -800,6 +811,7 @@
 				DEVELOPMENT_TEAM = F7JN2J2BY4;
 				GCC_PREFIX_HEADER = ./TggWeather/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = TggWeather/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ON_DEMAND_RESOURCES_PREFETCH_ORDER = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tiequantech.TggWeather;

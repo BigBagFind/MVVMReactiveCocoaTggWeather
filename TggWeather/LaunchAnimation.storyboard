@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="o1f-BI-TBO">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Launch View Controller-->
+        <scene sceneID="ZBp-ib-KKO">
+            <objects>
+                <viewController id="o1f-BI-TBO" customClass="LaunchViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Uvo-gj-aJQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="MFL-p7-uCv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BNC-7I-Wvb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="保亿风景蝶园第一生产力" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdg-AO-D4V">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.019607843140000001" green="0.48627450979999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="coryright©FindBigBag_Tgg" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yg6-lS-fMZ">
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                                <color key="textColor" red="0.019607843140000001" green="0.48627450979999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGN-6C-msf">
+                                <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="40"/>
+                                <color key="textColor" red="0.019607843140000001" green="0.48627450979999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Yg6-lS-fMZ" secondAttribute="trailing" constant="24" id="87L-NE-VKE"/>
+                            <constraint firstItem="MFL-p7-uCv" firstAttribute="top" secondItem="Yg6-lS-fMZ" secondAttribute="bottom" constant="20" id="HnS-5O-9uT"/>
+                            <constraint firstItem="cdg-AO-D4V" firstAttribute="leading" secondItem="BNC-7I-Wvb" secondAttribute="leading" constant="24" id="PHu-ee-mBT"/>
+                            <constraint firstItem="UGN-6C-msf" firstAttribute="centerX" secondItem="BNC-7I-Wvb" secondAttribute="centerX" id="PNm-Kh-2gf"/>
+                            <constraint firstItem="Yg6-lS-fMZ" firstAttribute="top" secondItem="cdg-AO-D4V" secondAttribute="bottom" constant="4" id="RzX-64-33A"/>
+                            <constraint firstItem="Yg6-lS-fMZ" firstAttribute="leading" secondItem="BNC-7I-Wvb" secondAttribute="leading" id="lLl-bN-vo5"/>
+                            <constraint firstAttribute="trailing" secondItem="cdg-AO-D4V" secondAttribute="trailing" id="sDe-UL-87X"/>
+                            <constraint firstItem="UGN-6C-msf" firstAttribute="centerY" secondItem="BNC-7I-Wvb" secondAttribute="centerY" id="ttF-Li-iQB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="weatherTitle" destination="UGN-6C-msf" id="BDp-Pb-KTW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p8u-st-WBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="633" y="188"/>
+        </scene>
+    </scenes>
+</document>
