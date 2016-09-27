@@ -83,23 +83,22 @@
     [self prepareMainViews];
     [self bindViewModel];
     
+    // 添加变化手势
     @weakify(self);
-    UISwipeGestureRecognizer *swipeLeftGes = [[UISwipeGestureRecognizer alloc] init];
-    swipeLeftGes.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.tableView addGestureRecognizer:swipeLeftGes];
-    UISwipeGestureRecognizer *swipeRightGes = [[UISwipeGestureRecognizer alloc] init];
-    swipeRightGes.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.tableView addGestureRecognizer:swipeRightGes];
-    [[RACSignal combineLatest:@[
-                              [swipeLeftGes rac_gestureSignal],
-                              [swipeRightGes rac_gestureSignal]
-                              ]] subscribeNext:^(id x) {
-        @strongify(self);
-        self.backgroundImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"hz%zd.jpeg",arc4random_uniform(13)]];
+    UISwipeGestureRecognizer *swipeGes = [[UISwipeGestureRecognizer alloc] init];
+    swipeGes.direction = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
+    [self.tableView addGestureRecognizer:swipeGes];
+    [[[swipeGes rac_gestureSignal]
+      flattenMap:^RACStream *(id value) {
+          return self.viewModel.executeRandomSignal;
+      }]
+     subscribeNext:^(UIImage *image) {
+         @strongify(self);
+         [UIView transitionWithView:self.backgroundImageView duration:1.0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+             self.backgroundImageView.image = image;
+         } completion:nil];
      }];
-    
-    
-    
+
     
 }
 
@@ -114,7 +113,8 @@
 }
 
 - (void)prepareBasicViews {
-    UIImage *background = [UIImage imageNamed:@"hangzhou.jpeg"];
+    
+    UIImage *background = [UIImage imageNamed:[WXUserDefaults objectForKey:WXBackgroundImage]];
     
     // 2
     self.backgroundImageView = [[UIImageView alloc] initWithImage:background];
@@ -225,8 +225,6 @@
     NSNumber *unit = [WXUserDefaults objectForKey:WXWeatherUnit];
     self.segControl.selectedSegmentIndex = [unit integerValue];
 }
-
-
 
 #pragma mark - 捆绑ViewModel
 - (void)bindViewModel {

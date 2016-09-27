@@ -12,8 +12,6 @@
 @interface WXController : UIViewController
 
 
-
-
 /** 初始化带ViewModel */
 - (instancetype)initWithViewModel:(WXViewModel *)viewModel;
 

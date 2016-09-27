@@ -13,6 +13,8 @@
 /** UserDefaults */
 #define WXUserDefaults                      [NSUserDefaults standardUserDefaults]
 #define WXWeatherUnit                       @"WXWeatherUnit"
+#define WXBackgroundImage                   @"WXBackgroundImage"
+
 
 
 /** Notification */

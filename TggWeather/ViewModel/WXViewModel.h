@@ -46,12 +46,11 @@
 @property (nonatomic, strong) RACSignal *fetchDataSignal;
 
 
-
+@property (nonatomic, strong) RACSignal *executeRandomSignal;
 
 
 // ViewModel，初始化带一个指向WXViewModelServices协议的对象
 - (instancetype)initWithServices:(id<WXViewModelServices>)services;
-
 
 
 - (NSString *)dailyStrWith:(WXCondition *)weather;

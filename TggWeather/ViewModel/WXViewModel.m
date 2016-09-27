@@ -55,6 +55,13 @@
         _dailyFormatter = [[NSDateFormatter alloc] init];
         _dailyFormatter.dateFormat = @"EEE";
         
+        if (![WXUserDefaults objectForKey:WXBackgroundImage]) {
+            [WXUserDefaults setObject:@"hz8.jpeg" forKey:WXBackgroundImage];
+            [WXUserDefaults synchronize];
+        }
+        
+
+        
         [self initialize];
         
         // 添加通知观察单位的改变
@@ -181,11 +188,30 @@
      }];
     
 /*************** RACTableCellInitialze ******************/
- 
-    
+
 
 }
 
+
+/** 传送新的随机图信号 */
+- (RACSignal *)executeRandomSignal {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+            NSString *oldImage = [WXUserDefaults objectForKey:WXBackgroundImage];
+            NSString *newImage;
+            do {
+                newImage = [NSString stringWithFormat:@"hz%zd.jpeg",arc4random_uniform(14)];
+            } while ([oldImage isEqualToString:newImage]);
+        
+            [WXUserDefaults setObject:newImage forKey:WXBackgroundImage];
+            [WXUserDefaults synchronize];
+        
+            [subscriber sendNext:[UIImage imageNamed:newImage]];
+            [subscriber sendCompleted];
+        
+        return nil;
+    }];
+}
 
 
 - (NSString *)dailyStrWith:(WXCondition *)weather {
@@ -196,6 +222,8 @@
 - (NSString *)hourlyStrWith:(WXCondition *)weather {
     return [self.dailyFormatter stringFromDate:weather.date];
 }
+
+
 
 
 #pragma mark - FetchData
