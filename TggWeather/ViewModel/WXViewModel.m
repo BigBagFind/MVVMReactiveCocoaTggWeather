@@ -117,6 +117,7 @@
 - (void)initialize {
     
 /*************** LocationInitialze ******************/
+    
     [self updateCurrentConditions];
     
     self.locationManager = [WXLocationImpl new];
