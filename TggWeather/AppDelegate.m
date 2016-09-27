@@ -39,7 +39,7 @@
     self.window.rootViewController = lauchVc;
     
     @weakify(self);
-    lauchVc.completionBlock = ^ {
+    lauchVc.completionBlock = ^{
         @strongify(self);
         // 1网络服务ViewModel
         WXViewModelServicesImpl *viewModelServices = [[WXViewModelServicesImpl alloc] init];

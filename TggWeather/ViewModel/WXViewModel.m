@@ -220,7 +220,7 @@
 
 
 - (NSString *)hourlyStrWith:(WXCondition *)weather {
-    return [self.dailyFormatter stringFromDate:weather.date];
+    return [self.hourlyFormatter stringFromDate:weather.date];
 }
 
 

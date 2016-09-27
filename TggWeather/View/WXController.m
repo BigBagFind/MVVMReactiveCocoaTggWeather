@@ -50,7 +50,8 @@
 /** 拿到全屏高度 */
 @property (nonatomic, assign) CGFloat screenHeight;
 
-
+/** 滑动手势 */
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGes;
 
 
 @end
@@ -86,10 +87,10 @@
     
     // 添加变化手势
     @weakify(self);
-    UISwipeGestureRecognizer *swipeGes = [[UISwipeGestureRecognizer alloc] init];
-    swipeGes.direction = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
-    [self.tableView addGestureRecognizer:swipeGes];
-    [[[swipeGes rac_gestureSignal]
+    self.swipeGes = [[UISwipeGestureRecognizer alloc] init];
+    self.swipeGes.direction = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
+    [self.tableView addGestureRecognizer:self.swipeGes];
+    [[[self.swipeGes rac_gestureSignal]
       flattenMap:^RACStream *(id value) {
           return self.viewModel.executeRandomSignal;
       }]
@@ -97,7 +98,7 @@
          @strongify(self);
          [UIView transitionWithView:self.backgroundImageView duration:1.0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
              self.backgroundImageView.image = image;
-             self.blurredImageView.image = image;
+             [self.blurredImageView setImageToBlur:image completionBlock:nil];
          } completion:nil];
      }];
 
@@ -415,6 +416,17 @@
     CGFloat percent = MIN(position / height, 1.0);
     // 3
     self.blurredImageView.alpha = percent;
+    
+    NSLog(@"%@",NSStringFromCGPoint(scrollView.contentOffset));
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if (offsetY >= self.view.frame.size.height) {
+        self.swipeGes.enabled = NO;
+    } else {
+        self.swipeGes.enabled = YES;
+    }
 }
 
 
