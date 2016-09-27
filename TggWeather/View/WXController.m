@@ -13,7 +13,7 @@
 #import "RACEXTScope.h"
 #import "WXThemeManager.h"
 
-@interface WXController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate,WXThemeProcotol>
+@interface WXController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 
 /** viewModel */
@@ -47,9 +47,9 @@
 @property (nonatomic, strong) UIImageView *iconView;
 
 
-
 /** 拿到全屏高度 */
 @property (nonatomic, assign) CGFloat screenHeight;
+
 
 
 
@@ -78,10 +78,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self prepareBasicViews];
     [self prepareMainViews];
     [self bindViewModel];
-    //[WXNotification addObserver:self selector:@selector(executeChangeWeatherUnit) name:WXChangeWeatherUnitNotification object:nil];
+    
+    @weakify(self);
+    UISwipeGestureRecognizer *swipeLeftGes = [[UISwipeGestureRecognizer alloc] init];
+    swipeLeftGes.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.tableView addGestureRecognizer:swipeLeftGes];
+    UISwipeGestureRecognizer *swipeRightGes = [[UISwipeGestureRecognizer alloc] init];
+    swipeRightGes.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.tableView addGestureRecognizer:swipeRightGes];
+    [[RACSignal combineLatest:@[
+                              [swipeLeftGes rac_gestureSignal],
+                              [swipeRightGes rac_gestureSignal]
+                              ]] subscribeNext:^(id x) {
+        @strongify(self);
+        self.backgroundImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"hz%zd.jpeg",arc4random_uniform(13)]];
+     }];
+    
+    
+    
     
 }
 
@@ -208,21 +226,6 @@
     self.segControl.selectedSegmentIndex = [unit integerValue];
 }
 
-- (void)executeChangeWeatherUnit {
-    /*
-     华氏度(℉)=32+摄氏度(℃)×1.8，
-     
-     摄氏度(℃)=（华氏度(℉)-32）÷1.8。
-     */
-//    if ([[WXThemeManager shareThemeManager].themeModel.unit isEqualToString:@"C"]) {
-//        CGFloat temperature = [self.viewModel.temperature doubleValue];
-//        self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°",(temperature - 32) / 1.8];
-//        self.temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:100];
-//    } else {
-//        self.temperatureLabel.text = self.viewModel.temperature;
-//        self.temperatureLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:120];
-//    }
-}
 
 
 #pragma mark - 捆绑ViewModel
