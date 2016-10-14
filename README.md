@@ -1,6 +1,9 @@
 ##### MVVMReactiveCocoaTggWeather
 ##### 简单简洁的天气软件
 ##### MVVMReactiveCocoaWeatherApp,想要用MVVM和RAC写的一个天气软件,简单展示当前的天气还有些其他相关字段
+[本篇相关介绍](http://www.jianshu.com/p/a275d790febd)
+[本篇相关介绍](http://www.jianshu.com/p/a275d790febd)
+[本篇相关介绍](http://www.jianshu.com/p/a275d790febd)
 ###慢慢改吧，慢慢更
 ####It's a easy sample,just study RAC&MVVM
 ####pod 
